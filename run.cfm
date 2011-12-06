@@ -4,7 +4,7 @@ Let's generate our default HTML documentation on myself:
 <cfscript>
 	colddoc = createObject("component", "ColdDoc").init();
 
-	strategy = createObject("component", "colddoc.strategy.api.HTMLAPIStrategy").init(expandPath("./docs"), "ColdDoc 1.0 Alpha");
+	strategy = createObject("component", "colddoc.strategy.api.HTMLAPIStrategy").init(expandPath("./docs"), "ColdDoc 1.0");
 	colddoc.setStrategy(strategy);
 
 	colddoc.generate(expandPath("/colddoc"), "colddoc");

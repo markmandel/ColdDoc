@@ -3,3 +3,4 @@
 !.gitignore
 settings.xml
 *.iml
+docs/*
