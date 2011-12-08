@@ -53,7 +53,7 @@
 				}
 
 				node = node[item];
-            </cfscript>
+      </cfscript>
 		</cfloop>
 	</cfloop>
 
@@ -68,8 +68,7 @@
 	<cfscript>
 		var startCall = arguments.startCommand;
 		var endCall = arguments.endCommand;
-		var keys = 0;
-		var node = 0;
+		var key = 0;
 		var thisArgs = 0;
 
 		if(NOT StructKeyExists(args, "fullname"))
@@ -106,7 +105,7 @@
 	<cfscript>
 		var qFunctions = QueryNew("name,metadata");
 		var func = 0;
-		var result = 0;
+		var results = 0;
 		var cache = getFunctionQueryCache();
 
 		if(StructKeyExists(cache, arguments.metadata.name))
@@ -178,7 +177,7 @@
 		var qClass = getMetaSubQuery(arguments.qMetaData, "LOWER(package)=LOWER('#packageName#') AND LOWER(name)=LOWER('#objectName#')");
 
 		return qClass.recordCount;
-    </cfscript>
+  </cfscript>
 </cffunction>
 
 <cffunction name="typeExists" hint="whether a type exists at all - be it class name, or primitive type" access="private" returntype="boolean" output="false">
@@ -187,7 +186,7 @@
 	<cfargument name="package" hint="the package the class comes from" type="string" required="Yes">
 	<cfscript>
 		return isPrimitive(arguments.className) OR classExists(argumentCollection=arguments);
-    </cfscript>
+	</cfscript>
 </cffunction>
 
 <cffunction name="resolveClassName" hint="resolves a class name that may not be full qualified" access="private" returntype="string" output="false">
@@ -200,7 +199,7 @@
 		}
 
 		return arguments.className;
-    </cfscript>
+	</cfscript>
 </cffunction>
 
 <cffunction name="getMetaSubQuery" hint="returns a query on the meta query" access="private" returntype="query" output="false">
@@ -337,13 +336,14 @@
 	<cfargument name="fromDir" hint="the input directory" type="string" required="Yes">
 	<cfargument name="toDir" hint="the output directory" type="string" required="Yes">
 	<cfscript>
-		var files = 0;
+		var qFiles = 0;
 		var currentDir = "";
 		var safeDir = "";
 
 		arguments.fromDir = replaceNoCase(arguments.fromDir, "\", "/", "all");
 		arguments.toDir = replaceNoCase(arguments.toDir, "\", "/", "all");
 	</cfscript>
+	
 	<cfdirectory action="list" directory="#arguments.fromDir#" recurse="true" name="qFiles">
 
 	<cfoutput group="directory" query="qFiles">

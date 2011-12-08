@@ -61,7 +61,8 @@
 	<cfargument name="inputSource" hint="an array of structs containing inputDir and inputMapping" type="array" required="yes"> <!--- of struct --->
 
 	<cfscript>
-		var qFile = 0;
+		var qFiles = 0;
+		var currentPath = 0;
 		var qMetaData = QueryNew("package,name,extends,metadata,type,implements,fullextends");
 		var cfcPath = 0;
 		var packagePath = 0;
@@ -109,9 +110,9 @@
 	                }
 
 					QueryAddRow(qMetaData);
-	                QuerySetCell(qMetaData, "package", packagePath);
-	                QuerySetCell(qMetaData, "name", cfcName);
-	                QuerySetCell(qMetaData, "metadata", meta);
+					QuerySetCell(qMetaData, "package", packagePath);
+					QuerySetCell(qMetaData, "name", cfcName);
+					QuerySetCell(qMetaData, "metadata", meta);
 					QuerySetCell(qMetaData, "type", meta.type);
 
 					implements = getImplements(meta);
