@@ -202,6 +202,7 @@
 <cffunction name="getInheritence" hint="gets an array of the classes that this metadata extends, in order of extension" access="private" returntype="array" output="false">
 	<cfargument name="metadata" hint="the metadata to look at" type="struct" required="Yes">
 	<cfscript>
+		{
 			var localmeta = arguments.metadata;
 			//ignore top level
 			var inheritence = [];
@@ -222,6 +223,7 @@
 			}
 
 			return inheritence;
+		}
 	</cfscript>
 </cffunction>
 
