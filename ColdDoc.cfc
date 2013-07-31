@@ -92,7 +92,7 @@
                     packagePath = arguments.inputSource[i].inputMapping;
                 }
 
-                cfcName = ListGetAt(name, 1, ".");
+                cfcName = Left(name, len(name)-4);
 
 				try
 				{
