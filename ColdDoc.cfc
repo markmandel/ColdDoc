@@ -71,11 +71,11 @@
 		var i = 0;
 		var implements = 0;
 		var fullextends = 0;
+		var cfoCompatibility = createObject("component","colddoc.compatibility");
 	</cfscript>
 
     <cfloop index="i" from="1" to="#ArrayLen(arguments.inputSource)#">
-
-        <cfdirectory action="list" directory="#arguments.inputSource[i].inputDir#" recurse="true" name="qFiles" filter="*.cfc">
+        <cfset qFiles = cfoCompatibility.directory_list(directory="#arguments.inputSource[i].inputDir#",recurse=true,filter_cfc=true)>
 
         <cfloop query="qFiles">
             <cfscript>

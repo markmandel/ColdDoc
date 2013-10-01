@@ -4,8 +4,8 @@
 <!------------------------------------------- PUBLIC ------------------------------------------->
 
 <cfscript>
-	instance.static.META_ABSTRACT = "colddoc:abstract";
-	instance.static.META_GENERIC = "colddoc:generic";
+	instance.static.META_ABSTRACT = "colddoc_abstract";
+	instance.static.META_GENERIC = "colddoc_generic";
 </cfscript>
 
 <cffunction name="run" hint="Run this strategy" access="public" returntype="void" output="false">
@@ -53,7 +53,7 @@
 				}
 
 				node = node[item];
-      </cfscript>
+            </cfscript>
 		</cfloop>
 	</cfloop>
 
@@ -68,7 +68,8 @@
 	<cfscript>
 		var startCall = arguments.startCommand;
 		var endCall = arguments.endCommand;
-		var key = 0;
+		var keys = 0;
+		var node = 0;
 		var thisArgs = 0;
 
 		if(NOT StructKeyExists(args, "fullname"))
@@ -105,7 +106,7 @@
 	<cfscript>
 		var qFunctions = QueryNew("name,metadata");
 		var func = 0;
-		var results = 0;
+		var result = 0;
 		var cache = getFunctionQueryCache();
 
 		if(StructKeyExists(cache, arguments.metadata.name))
@@ -154,7 +155,7 @@
 	{
 		var objectname = getObjectName(arguments.class);
 		var lenCount = Len(arguments.class) - (Len(objectname) + 1);
-	       
+
 		if( lenCount gt 0 )
 		{
 		    return Left(arguments.class, lenCount);
@@ -177,7 +178,7 @@
 		var qClass = getMetaSubQuery(arguments.qMetaData, "LOWER(package)=LOWER('#packageName#') AND LOWER(name)=LOWER('#objectName#')");
 
 		return qClass.recordCount;
-  </cfscript>
+    </cfscript>
 </cffunction>
 
 <cffunction name="typeExists" hint="whether a type exists at all - be it class name, or primitive type" access="private" returntype="boolean" output="false">
@@ -186,7 +187,7 @@
 	<cfargument name="package" hint="the package the class comes from" type="string" required="Yes">
 	<cfscript>
 		return isPrimitive(arguments.className) OR classExists(argumentCollection=arguments);
-	</cfscript>
+    </cfscript>
 </cffunction>
 
 <cffunction name="resolveClassName" hint="resolves a class name that may not be full qualified" access="private" returntype="string" output="false">
@@ -199,7 +200,7 @@
 		}
 
 		return arguments.className;
-	</cfscript>
+    </cfscript>
 </cffunction>
 
 <cffunction name="getMetaSubQuery" hint="returns a query on the meta query" access="private" returntype="query" output="false">
@@ -336,18 +337,17 @@
 	<cfargument name="fromDir" hint="the input directory" type="string" required="Yes">
 	<cfargument name="toDir" hint="the output directory" type="string" required="Yes">
 	<cfscript>
-		var qFiles = 0;
+		var files = 0;
 		var currentDir = "";
 		var safeDir = "";
 
 		arguments.fromDir = replaceNoCase(arguments.fromDir, "\", "/", "all");
 		arguments.toDir = replaceNoCase(arguments.toDir, "\", "/", "all");
 	</cfscript>
-	
-	<cfdirectory action="list" directory="#arguments.fromDir#" recurse="true" name="qFiles">
+
+	<cfinvoke component="colddoc.compatibility" method="directory_list" directory="#arguments.fromDir#" returnvariable="qFiles">
 
 	<cfoutput group="directory" query="qFiles">
-
 		<cfset safeDir = replaceNoCase(directory, "\", "/", "all") />
 
 		<!--- dodge svn directories --->
@@ -379,13 +379,13 @@
 <cffunction name="isAbstractClass" hint="is this class annotated as an abstract class?" access="private" returntype="boolean" output="false">
 	<cfargument name="class" hint="the class name" type="string" required="Yes">
 	<cfargument name="package" hint="the package the class comes from" type="string" required="Yes">
+
 	<cfscript>
 		var meta = 0;
 		arguments.class = resolveClassName(arguments.class, arguments.package);
-
 		meta = getComponentMetadata(arguments.class);
 
-		if(structKeyExists(meta, instance.static.META_ABSTRACT))
+		if(structKeyExists(meta,instance.static.META_ABSTRACT))
 		{
 			return meta[instance.static.META_ABSTRACT];
 		}
@@ -449,5 +449,7 @@
 		<cfabort>
 		</cfif>
 </cffunction>
+
+
 
 </cfcomponent>
