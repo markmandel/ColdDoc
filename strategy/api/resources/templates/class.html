@@ -223,7 +223,7 @@ Class
 	<BR>
 	<cfif StructKeyExists(local.prop, "hint") AND Len(local.prop.hint)>
 	<!--- only grab the first sentence of the hint --->
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#listGetAt(local.prop.hint, 1, ".")#
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#listGetAt(local.prop.hint, 1, ".")#.
 	</cfif>
 	
 	<br><br>
@@ -287,7 +287,7 @@ Class
 	<BR>
 	<cfif StructKeyExists(local.init, "hint") and len( local.init.hint ) >
 		<!--- only grab the first sentence of the hint --->
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#listGetAt(local.init.hint, 1, ".")#
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#listGetAt(local.init.hint, 1, ".")#.
 	</cfif>
 	</TD>
 	</TR>
@@ -317,7 +317,7 @@ Class
 <BR>
 <cfif StructKeyExists(local.func, "hint") AND Len(local.func.hint)>
 <!--- only grab the first sentence of the hint --->
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#listGetAt(local.func.hint, 1, ".")#
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#listGetAt(local.func.hint, 1, ".")#.
 </cfif>
 </TD>
 </TR>
@@ -479,7 +479,7 @@ Class
 	<dl>
 	<dd>
 	<cfif StructKeyExists(local.func, "hint") AND Len(local.func.hint)>
-	#local.func.hint#
+		#local.func.hint#
 	</cfif>
 	<p>
 	</p></dd>
@@ -516,29 +516,36 @@ Class
 
 	<cfset local.overWrites = findOverwrite(arguments.metaData, local.func.name) />
 	<cfif Len(local.overWrites)>
-	<dl>
-		<dt><b>Overrides:</b></dt>
-		<dd>
-		<code>
-		<a href="#instance.class.root#/#replace(getPackage(local.overWrites), '.', '/', 'all')#/#getObjectName(local.overWrites)#.html###local.func.name#()">#local.func.name#</a></code>
-		in class
-		<code>
-			#writeClassLink(getPackage(local.overWrites), getObjectName(local.overWrites), arguments.qMetaData, 'short')#
-		</code>
-		</dd>
-	</dl>
+		<dl>
+			<dt><b>Overrides:</b></dt>
+			<dd>
+			<code>
+			<a href="#instance.class.root#/#replace(getPackage(local.overWrites), '.', '/', 'all')#/#getObjectName(local.overWrites)#.html###local.func.name#()">#local.func.name#</a></code>
+			in class
+			<code>
+				#writeClassLink(getPackage(local.overWrites), getObjectName(local.overWrites), arguments.qMetaData, 'short')#
+			</code>
+			</dd>
+		</dl>
 	</cfif>
 
 	<cfif StructKeyExists(local.func, "parameters") AND ArrayLen(local.func.parameters)>
-	<dl>
-	<dt><b>Parameters:</b></dt>
-	<cfloop array="#local.func.parameters#" index="local.param">
-	<dd><code>#local.param.name#</code><cfif StructKeyExists(local.param, "hint")> - #local.param.hint#</cfif></dd>
-	</cfloop>
-	</dl>
+		<dl>
+		<dt><b>Parameters:</b></dt>
+		<cfloop array="#local.func.parameters#" index="local.param">
+		<dd><code>#local.param.name#</code><cfif StructKeyExists(local.param, "hint")> - #local.param.hint#</cfif></dd>
+		</cfloop>
+		</dl>
 	</cfif>
 
-	</dd>
+	<cfif StructKeyExists(local.func, "return") AND isSimplevalue(local.func.return)>
+		<dl>
+			<dt><b>Returns:</b></dt>
+			<dd>#local.func.return#</dd>
+		</dl>
+	</cfif>
+
+	<!---</dd>--->
 	</dl>
 	<hr>
 </cfloop>
