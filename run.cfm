@@ -14,9 +14,9 @@
 		<div id="main">
 		<cfscript>
 			// Config
-			source = "../FolderToRead"; // The source code folder we are generating documentation for
-			mapping = "foldertoread"; // The folder name used for mapping
-			docPath = "./Docs/DocExportFolder"; // The location of where we are putting the documentation
+			source = "./ColdDoc"; // The source code folder we are generating documentation for
+			mapping = "colddoc"; // The folder name used for mapping
+			docPath = "./Docs/ColdDoc"; // The location of where we are putting the documentation
 			
 			colddoc = createObject("component", "ColdDoc").init();
 			strategy = createObject("component", "colddoc.strategy.api.HTMLAPIStrategy").init(expandPath(docPath), "ColdDoc 1.0");
