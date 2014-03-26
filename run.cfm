@@ -13,8 +13,8 @@
 		<h1 id="title">ColdDoc Generator</h1>
 		<div id="main">
 		<cfscript>
-			// Config
-			source = "./ColdDoc"; // The source code folder we are generating documentation for
+			// Config - The default will generate documentation for ColdDoc
+			source = "/ColdDoc"; // The source code folder we are generating documentation for
 			mapping = "colddoc"; // The folder name used for mapping
 			docPath = "./Docs/ColdDoc"; // The location of where we are putting the documentation
 			
