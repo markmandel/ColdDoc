@@ -4,3 +4,5 @@
 settings.xml
 *.iml
 docs/*
+/WEB-INF/
+Application.cfc
