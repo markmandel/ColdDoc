@@ -154,7 +154,7 @@
 		writeTemplate(path=getOutputDir() & "/overview-frame.html",
 					template="#instance.static.TEMPLATE_PATH#/overview-frame.cfm",
 					projectTitle=getProjectTitle(),
-					qPackages = qPackages);
+					qMetaData = arguments.qMetaData);
 	</cfscript>
 </cffunction>
 
