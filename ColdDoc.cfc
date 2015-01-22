@@ -13,6 +13,7 @@
 <cffunction name="generate" hint="generates the documentation" access="public" returntype="void" output="false">
 	<cfargument name="inputSource" hint="either, the string directory source, OR an array of structs containing inputDir and inputMapping key" type="any" required="yes">
 	<cfargument name="inputMapping" hint="the base mapping for the folder. Only required if the inputSource is a string." type="string" required="false" default="">
+	<cfargument name="recursive" hint="the indicator to search within directories recursively. Only required if the inputSource is a string." type="string" required="false" default="false">
 	<cfscript>
 		var qMetaData = 0;
 		var source = 0;
@@ -25,7 +26,7 @@
 
 		if(isSimpleValue(arguments.inputSource))
 		{
-			source = [{ inputDir=arguments.inputSource, inputMapping=arguments.inputMapping }];
+			source = [{ inputDir=arguments.inputSource, inputMapping=arguments.inputMapping, recursive=arguments.recursive }];
 		}
 		else
 		{
@@ -75,7 +76,7 @@
 
     <cfloop index="i" from="1" to="#ArrayLen(arguments.inputSource)#">
 
-        <cfdirectory action="list" directory="#arguments.inputSource[i].inputDir#" recurse="true" name="qFiles" filter="*.cfc">
+        <cfdirectory action="list" directory="#arguments.inputSource[i].inputDir#" recurse="#arguments.inputSource[i].recursive" name="qFiles" filter="*.cfc">
 
         <cfloop query="qFiles">
             <cfscript>
