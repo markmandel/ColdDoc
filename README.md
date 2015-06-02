@@ -7,7 +7,7 @@ Apache License, Version 2.0.
 
 ##SYSTEM REQUIREMENTS
 - Lucee 4.5+
-- ColdFusion 9+
+- ColdFusion 10+
 
 
 [1]: https://github.com/Ortus-Solutions/DocBox/wiki
