@@ -1,9 +1,9 @@
-<cfcomponent hint="Default Document Strategy for ColdDoc" extends="colddoc.strategy.AbstractTemplateStrategy" output="false">
+<cfcomponent hint="Default Document Strategy for DocBox" extends="docbox.strategy.AbstractTemplateStrategy" output="false">
 
 <!------------------------------------------- PUBLIC ------------------------------------------->
 
 <cfscript>
-	instance.static.TEMPLATE_PATH = "/colddoc/strategy/api/resources/templates";
+	instance.static.TEMPLATE_PATH = "/docbox/strategy/api/resources/templates";
 </cfscript>
 
 

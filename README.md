@@ -1,18 +1,14 @@
-ColdDoc 1.0
-==========
+#Welcome to DocBox!
 
-Thanks for taking the time to look at ColdDoc!
+DocBox is a fork of the ColdDoc project originally created by Mark Mandel.Documentation for ColdDoc can be found on the [GitHub Wiki][1]. The main Git repository and downloads can be found on [GitHub][2].
 
-The ColdDoc home page can be found at [http://www.compoundtheory.com/?action=colddoc.index][1]
+##LICENSE
+Apache License, Version 2.0.
 
-Documentation for ColdDoc can be found on the [GitHub Wiki][2].
+##SYSTEM REQUIREMENTS
+- Lucee 4.5+
+- ColdFusion 9+
 
-The main Git repository and downloads can be found on [GitHub][3].
 
-For support, the ColdDoc mailing list can be found on [Google Groups][4].
-
-[1]: http://www.compoundtheory.com/?action=colddoc.index
-[2]: https://github.com/markmandel/ColdDoc/wiki
-[3]: https://github.com/markmandel/ColdDoc
-[4]: https://groups.google.com/forum/#!forum/colddoc-dev
-
+[1]: https://github.com/Ortus-Solutions/DocBox/wiki
+[2]: https://github.com/Ortus-Solutions/DocBox

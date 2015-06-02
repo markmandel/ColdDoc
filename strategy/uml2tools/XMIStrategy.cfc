@@ -1,10 +1,10 @@
 <cfcomponent output="false" hint="Strategy for generating the .uml file for Eclipse UML2Tools to generate diagrams from"
-				extends="colddoc.strategy.AbstractTemplateStrategy" >
+				extends="docbox.strategy.AbstractTemplateStrategy" >
 
 <!------------------------------------------- PUBLIC ------------------------------------------->
 
 <cfscript>
-	instance.static.TEMPLATE_PATH = "/colddoc/strategy/uml2tools/resources/templates";
+	instance.static.TEMPLATE_PATH = "/docbox/strategy/uml2tools/resources/templates";
 </cfscript>
 
 <cffunction name="init" hint="Constructor" access="public" returntype="XMIStrategy" output="false">

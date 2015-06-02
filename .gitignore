@@ -3,4 +3,5 @@
 !.gitignore
 settings.xml
 *.iml
-docs/*
+tests/output/*
+tests/node_modules

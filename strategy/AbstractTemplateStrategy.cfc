@@ -1,11 +1,11 @@
 <cfcomponent hint="Abstract base class for general templating strategies" output="false"
-			 colddoc:abstract="true">
+			 doc_abstract="true">
 
 <!------------------------------------------- PUBLIC ------------------------------------------->
 
 <cfscript>
-	instance.static.META_ABSTRACT = "colddoc:abstract";
-	instance.static.META_GENERIC = "colddoc:generic";
+	instance.static.META_ABSTRACT 	= "doc_abstract";
+	instance.static.META_GENERIC 	= "doc_generic";
 </cfscript>
 
 <cffunction name="run" hint="Run this strategy" access="public" returntype="void" output="false">
@@ -26,7 +26,7 @@
 </cffunction>
 
 <cffunction name="buildPackageTree" hint="builds a data structure that shows the tree structure of the packages" access="public" returntype="struct" output="false"
-			colddoc:generic="string,struct">
+			doc_generic="string,struct">
 	<cfargument name="qMetadata" hint="the meta data query" type="query" required="Yes">
 	<cfscript>
 		var qPackages = 0;
@@ -62,10 +62,10 @@
 </cffunction>
 
 <cffunction name="visitPackageTree" hint="visit each element on the package tree" access="private" returntype="void" output="false">
-	<cfargument name="packageTree" hint="the package tree" type="struct" required="Yes" colddoc:generic="string,struct">
+	<cfargument name="packageTree" hint="the package tree" type="struct" required="Yes" doc_generic="string,struct">
 	<cfargument name="startCommand" hint="the command to call on each visit" type="any" required="Yes">
 	<cfargument name="endCommand" hint="the command to call on each visit" type="any" required="Yes">
-	<cfargument name="args" hint="the extra arguments to get passed on to the visitor command (name, and fullname get passed by default)" type="struct" required="No" default="#structNew()#" colddoc:generic="string,any">
+	<cfargument name="args" hint="the extra arguments to get passed on to the visitor command (name, and fullname get passed by default)" type="struct" required="No" default="#structNew()#" doc_generic="string,any">
 	<cfscript>
 		var startCall = arguments.startCommand;
 		var endCall = arguments.endCommand;
@@ -466,7 +466,7 @@
 </cffunction>
 
 <cffunction name="getGenericTypes" hint="return an array of generic types associated with this function/argument" access="private" returntype="array" output="false"
-	colddoc:generic="string">
+	doc_generic="string">
 	<cfargument name="meta" hint="either function, or argument metadata struct" type="struct" required="Yes">
 	<cfargument name="package" hint="what package are we currently in?" type="string" required="Yes">
 	<cfscript>
@@ -492,21 +492,21 @@
     </cfscript>
 </cffunction>
 
-<cffunction name="getFunctionQueryCache" access="private" returntype="struct" output="false" colddoc:generic="string,struct">
+<cffunction name="getFunctionQueryCache" access="private" returntype="struct" output="false" doc_generic="string,struct">
 	<cfreturn instance.functionQueryCache />
 </cffunction>
 
-<cffunction name="getPropertyQueryCache" access="private" returntype="struct" output="false" colddoc:generic="string,struct">
+<cffunction name="getPropertyQueryCache" access="private" returntype="struct" output="false" doc_generic="string,struct">
 	<cfreturn instance.propertyQueryCache />
 </cffunction>
 
 <cffunction name="setFunctionQueryCache" access="private" returntype="void" output="false">
-	<cfargument name="functionQueryCache" type="struct" required="true" colddoc:generic="string,query">
+	<cfargument name="functionQueryCache" type="struct" required="true" doc_generic="string,query">
 	<cfset instance.functionQueryCache = arguments.functionQueryCache />
 </cffunction>
 
 <cffunction name="setPropertyQueryCache" access="private" returntype="void" output="false">
-	<cfargument name="propertyQueryCache" type="struct" required="true" colddoc:generic="string,query">
+	<cfargument name="propertyQueryCache" type="struct" required="true" doc_generic="string,query">
 	<cfset instance.propertyQueryCache = arguments.propertyQueryCache />
 </cffunction>
 

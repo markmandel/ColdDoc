@@ -1,0 +1,13 @@
+{
+  "name": "docbox-test",
+  "version": "0.0.0",
+  "description": "DocBox Tests",
+  "main": "Gruntfile.js",
+  "private": "true",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-http": "^1.6.0",
+    "matchdep": "^0.3.0"
+  }
+}

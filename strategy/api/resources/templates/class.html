@@ -37,6 +37,9 @@
 </div>
 
 <h2>
+<cfif isAbstractClass( arguments.name, arguments.package )>
+Abstract
+</cfif>
 <cfif arguments.metadata.type eq "interface">
 Interface
 <cfelse>
@@ -52,7 +55,7 @@ Class
 
 <cfloop array="#getInheritence(arguments.metadata)#" index="className">
 	<cfif local.i++ gt 0>
-		<cfset local.buffer.append('#RepeatString("    ", local.i)#<img src="#instance.class.root#resources/inherit.gif" alt="extended by ">') />
+		<cfset local.buffer.append('#RepeatString("  ", local.i)#<img src="#instance.class.root#resources/inherit.gif" alt="extended by ">') />
 		<cfif className neq local.thisClass>
 			<cfset local.buffer.append(writeClassLink(getPackage(className), getObjectName(className), arguments.qMetaData, "long")) />
 		<cfelse>
@@ -65,31 +68,9 @@ Class
 </cfloop>
 
 <!-- Inheritance Tree-->
-<pre>#local.buffer.toString()#</pre>
+<pre style="background:white">#local.buffer.toString()#</pre>
 
-<div class="panel panel-default">
-	<div class="panel-heading"><strong>Class Attributes:</strong></div>
-		<div class="panel-body">
-		<cfset local.cfcAttributesCount = 0>
-		<cfloop collection="#arguments.metadata#" item="local.cfcmeta">
-			<cfif isSimpleValue( arguments.metadata[ local.cfcmeta ] ) AND
-				  !listFindNoCase( "hint,extends,fullname,functions,hashcode,name,path,properties,type,remoteaddress", local.cfcmeta ) >
-			<cfset local.cfcAttributesCount++>
-			<li class="label label-danger label-annotations">
-				#lcase( local.cfcmeta )# 
-				<cfif len( arguments.metadata[ local.cfcmeta ] )>
-				: #arguments.metadata[ local.cfcmeta ]#		
-				</cfif>
-			</li>
-			&nbsp;
-			</cfif>
-		</cfloop>
-		<cfif local.cfcAttributesCount eq 0>
-			<span class="label label-warning"><em>None</em></span>
-		</cfif>
-	</div>
-</div>
-
+<!--- All implemented interfaces --->
 <cfif arguments.metadata.type eq "component">
 	<cfset interfaces = getImplements(arguments.metadata)>
 	<cfif NOT arrayIsEmpty(interfaces)>
@@ -176,6 +157,30 @@ Class
 	<p>#arguments.metadata.hint#</p>
 </div>
 </cfif>
+
+<!-- Clas Attributes -->
+<div class="panel panel-info">
+	<div class="panel-heading"><strong>Class Attributes:</strong></div>
+		<div class="panel-body">
+		<cfset local.cfcAttributesCount = 0>
+		<cfloop collection="#arguments.metadata#" item="local.cfcmeta">
+			<cfif isSimpleValue( arguments.metadata[ local.cfcmeta ] ) AND
+				  !listFindNoCase( "hint,extends,fullname,functions,hashcode,name,path,properties,type,remoteaddress", local.cfcmeta ) >
+			<cfset local.cfcAttributesCount++>
+			<li class="label label-danger label-annotations">
+				#lcase( local.cfcmeta )# 
+				<cfif len( arguments.metadata[ local.cfcmeta ] )>
+				: #arguments.metadata[ local.cfcmeta ]#		
+				</cfif>
+			</li>
+			&nbsp;
+			</cfif>
+		</cfloop>
+		<cfif local.cfcAttributesCount eq 0>
+			<span class="label label-warning"><em>None</em></span>
+		</cfif>
+	</div>
+</div>
 
 <cfscript>
 	instance.class.cache = StructNew();
