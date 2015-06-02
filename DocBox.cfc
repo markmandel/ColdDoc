@@ -1,4 +1,6 @@
 /**
+* Copyright 2015 Ortus Solutions, Corp
+* www.ortussolutions.com
 * Core DocBox documentation class
 */
 component accessors="true"{

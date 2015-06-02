@@ -26,7 +26,7 @@
 		var basePath = getDirectoryFromPath(getMetaData(this).path);
 		var args = 0;
 
-		recursiveCopy(basePath & "resources/static", getOutputDir());
+		directoryCopy( basePath & "resources/static", getOutputDir(), true );
 
 		//write the index template
 		args = {path=getOutputDir() & "/index.html", template="#instance.static.TEMPLATE_PATH#/index.html", projectTitle=getProjectTitle()};
