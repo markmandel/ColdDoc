@@ -88,7 +88,7 @@ component accessors="true"{
 	* @excludes	A regex that will be applied to the input source to exclude from the docs
 	*/
 	query function buildMetaDataCollection( required array inputSource, string excludes="" ){
-		var qMetaData = QueryNew( "package,name,extends,metadata,type,implements,fullextends" );
+		var qMetaData = QueryNew( "package,name,extends,metadata,type,implements,fullextends,currentMapping" );
 		
 		// iterate over input sources
 		for( var thisInput in arguments.inputSource ){
@@ -132,10 +132,11 @@ component accessors="true"{
 	                // Add row
 					QueryAddRow( qMetaData );
 					// Add contents
-	                QuerySetCell( qMetaData, "package",  packagePath );
-	                QuerySetCell( qMetaData, "name", 	 cfcName );
-	                QuerySetCell( qMetaData, "metadata", meta );
-					QuerySetCell( qMetaData, "type", 	 meta.type );
+	                QuerySetCell( qMetaData, "package",  		packagePath );
+	                QuerySetCell( qMetaData, "name", 	 		cfcName );
+	                QuerySetCell( qMetaData, "metadata", 		meta );
+					QuerySetCell( qMetaData, "type", 	 		meta.type );
+					QuerySetCell( qMetaData, "currentMapping", 	thisInput.mapping );
 					
 					// Get implements
 					var implements = getImplements( meta );
