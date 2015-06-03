@@ -1,7 +1,7 @@
 /**
-* Copyright 2015 Ortus Solutions, Corp
-* www.ortussolutions.com
 * Core DocBox documentation class
+* <br>
+* <small><em>Copyright 2015 Ortus Solutions, Corp <a href="www.ortussolutions.com">www.ortussolutions.com</a></em></small>
 */
 component accessors="true"{
 

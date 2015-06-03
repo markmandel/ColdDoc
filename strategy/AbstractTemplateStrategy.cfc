@@ -1,9 +1,18 @@
 /**
 * Abstract base class for general templating strategies
+* <br>
+* <small><em>Copyright 2015 Ortus Solutions, Corp <a href="www.ortussolutions.com">www.ortussolutions.com</a></em></small>
 */
 component doc_abstract="true" accessors="true"{
 
+	/**
+	* The function query cache
+	*/
 	property name="functionQueryCache" type="struct";
+
+	/**
+	* The property query cache
+	*/
 	property name="propertyQueryCache" type="struct";
 
 	// static constants
@@ -13,7 +22,7 @@ component doc_abstract="true" accessors="true"{
 	/**
 	* Constructor
 	*/
-	function init(){
+	AbstractTemplateStrategy function init(){
 		setFunctionQueryCache( structNew() );
 		setPropertyQueryCache( structnew() );
 		return this;
@@ -22,7 +31,7 @@ component doc_abstract="true" accessors="true"{
 	/**
 	* Runs the strategy
 	*/
-	function run(){
+	AbstractTemplateStrategy function run(){
 		throw(
 			type 	= "AbstractMethodException",
 			message = "Method is abstract and must be overwritten",
@@ -35,7 +44,7 @@ component doc_abstract="true" accessors="true"{
 	* @return string,struct
 	*/
 	struct function buildPackageTree( required query qMetadata ){
-		var qPackages = Query( dbtype="query", md=arguments.qMetadata, sql="
+		var qPackages = new Query( dbtype="query", md=arguments.qMetadata, sql="
 			SELECT DISTINCT
 				package
 			FROM

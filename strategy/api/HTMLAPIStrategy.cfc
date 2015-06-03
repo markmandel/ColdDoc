@@ -1,190 +1,176 @@
-<cfcomponent hint="Default Document Strategy for DocBox" extends="docbox.strategy.AbstractTemplateStrategy" output="false">
+/**
+* Default Document Strategy for DocBox
+* <br>
+* <small><em>Copyright 2015 Ortus Solutions, Corp <a href="www.ortussolutions.com">www.ortussolutions.com</a></em></small>
+*/
+component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 
-<!------------------------------------------- PUBLIC ------------------------------------------->
+	/**
+	* The output directory
+	*/
+	property name="outputDir" type="string";
 
-<cfscript>
-	instance.static.TEMPLATE_PATH = "/docbox/strategy/api/resources/templates";
-</cfscript>
+	/**
+	* The project title to use
+	*/
+	property name="projectTitle" default="Untitled" type="string";
 
+	// Static variables.
+	variables.static.TEMPLATE_PATH = "/docbox/strategy/api/resources/templates";
+	variables.static.ASSETS_PATH = "/docbox/strategy/api/resources/static";
 
-<cffunction name="init" hint="Constructor" access="public" returntype="HTMLAPIStrategy" output="false">
-	<cfargument name="outputDir" hint="the output directory" type="string" required="Yes">
-	<cfargument name="projectTitle" hint="the title of the project" type="string" required="No" default="Untitled">
-	<cfscript>
+	/**
+	* Constructor
+	* @outputDir The output directory
+	* @projectTitle The title used in the HTML output
+	*/
+	HTMLAPIStrategy function init( required outputDir, string projectTitle="Untitled" ){
 		super.init();
 
-		setOutputDir(arguments.outputDir);
-		setProjectTitle(arguments.projectTitle);
+		variables.outputDir 	= arguments.outputDir;
+		variables.projectTitle 	= arguments.projectTitle;
 
 		return this;
-	</cfscript>
-</cffunction>
+	}
 
-<cffunction name="run" hint="Run this strategy" access="public" returntype="void" output="false">
-	<cfargument name="qMetadata" hint="the meta data query" type="query" required="Yes">
-	<cfscript>
-		var basePath = getDirectoryFromPath(getMetaData(this).path);
-		var args = 0;
-
-		directoryCopy( basePath & "resources/static", getOutputDir(), true );
+	/**
+	* Run this strategy
+	* @qMetaData The metadata
+	*/
+	HTMLAPIStrategy function run( required query qMetadata ){
+		// copy over the static assets
+		directoryCopy( variables.static.ASSETS_PATH, getOutputDir(), true );
 
 		//write the index template
-		args = {path=getOutputDir() & "/index.html", template="#instance.static.TEMPLATE_PATH#/index.cfm", projectTitle=getProjectTitle()};
-		writeTemplate(argumentCollection=args);
+		var args = {
+			path 		 = getOutputDir() & "/index.html", 
+			template 	 = "#variables.static.TEMPLATE_PATH#/index.cfm", 
+			projectTitle = getProjectTitle()
+		};
+		writeTemplate( argumentCollection=args )
+			// Write overview summary and frame
+			.writeOverviewSummaryAndFrame( arguments.qMetaData )
+			// Write classes frame
+			.writeAllClassesFrame( arguments.qMetaData )
+			// Write packages
+			.writePackagePages( arguments.qMetaData );
 
-		writeOverviewSummaryAndFrame(arguments.qMetaData);
+		return this;
+	}
 
-		writeAllClassesFrame(arguments.qMetaData);
-
-		writePackagePages(arguments.qMetaData);
-    </cfscript>
-</cffunction>
-
-<!------------------------------------------- PACKAGE ------------------------------------------->
-
-<!------------------------------------------- PRIVATE ------------------------------------------->
-
-<cffunction name="writePackagePages" hint="writes the package summaries" access="private" returntype="void" output="false">
-	<cfargument name="qMetadata" hint="the meta data query" type="query" required="Yes">
-	<cfscript>
+	/**
+	* writes the package summaries
+	* @qMetaData The metadata
+	*/
+	private HTMLAPIStrategy function writePackagePages( required query qMetadata ){
 		var currentDir = 0;
 		var qPackage = 0;
 		var qClasses = 0;
 		var qInterfaces = 0;
-	</cfscript>
 
-	<cfoutput query="arguments.qMetaData" group="package">
-		<cfscript>
-			currentDir = getOutputDir() & "/" & replace(package, ".", "/", "all");
-			ensureDirectory(currentDir);
-			qPackage = getMetaSubquery(arguments.qMetaData, "package = '#package#'", "name asc");
-			qClasses = getMetaSubquery(qPackage, "type='component'", "name asc");
-			qInterfaces = getMetaSubquery(qPackage, "type='interface'", "name asc");
+		// done this way as ACF compat. Does not support writeoutput with query grouping.
+		include "#variables.static.TEMPLATE_PATH#/packagePages.cfm";
 
-			writeTemplate(path=currentDir & "/package-summary.html",
-						template="#instance.static.TEMPLATE_PATH#/package-summary.cfm",
-						projectTitle = getProjectTitle(),
-						package = package,
-						qClasses = qClasses,
-						qInterfaces = qInterfaces);
+		return this;
+	}
 
-			writeTemplate(path=currentDir & "/package-frame.html",
-						template="#instance.static.TEMPLATE_PATH#/package-frame.cfm",
-						projectTitle = getProjectTitle(),
-						package = package,
-						qClasses = qClasses,
-						qInterfaces = qInterfaces);
+	/**
+	* builds the class pages
+	* @qPackage the query for a specific package
+	* @qMetaData The metadata
+	*/
+	private HTMLAPIStrategy function buildClassPages( 
+		required query qPackage,
+		required query qMetadata 
+	){
+		for( var thisRow in arguments.qPackage ){
+			var currentDir 	= getOutputDir() & "/" & replace( thisRow.package, ".", "/", "all" );
+			var safeMeta 	= structCopy( thisRow.metadata );
 
-			buildClassPages(qPackage,
-							arguments.qMetadata
-							);
-		</cfscript>
-	</cfoutput>
-</cffunction>
-
-<cffunction name="buildClassPages" hint="builds the class pages" access="private" returntype="void" output="false">
-	<cfargument name="qPackage" hint="the query for a specific package" type="query" required="Yes">
-	<cfargument name="qMetadata" hint="the meta data query" type="query" required="Yes">
-	<cfscript>
-		var qSubClass = 0;
-		var qImplementing = 0;
-		var currentDir = 0;
-		var subClass = 0;
-		var safeMeta = 0;
-	</cfscript>
-
-<!---	<cfif arguments.qPackage.package eq "coldspring.aop">
-	<cfdump show="name,package,type" var="#arguments.qPackage#" ><cfabort>
-	</cfif>--->
-
-	<cfloop query="arguments.qPackage">
-		<cfscript>
-			currentDir = getOutputDir() & "/" & replace(package, ".", "/", "all");
-			safeMeta = structCopy(metadata);
-
-			if(safeMeta.type eq "component")
-			{
-				qSubClass = getMetaSubquery(arguments.qMetaData, "UPPER(extends) = UPPER('#arguments.qPackage.package#.#arguments.qPackage.name#')", "package asc, name asc");
-				qImplementing = QueryNew("");
-			}
-			else
-			{
+			// Is this a class
+			if( safeMeta.type eq "component" ){
+				var qSubClass = getMetaSubquery( 
+					arguments.qMetaData, 
+					"UPPER(extends) = UPPER('#arguments.qPackage.package#.#arguments.qPackage.name#')", 
+					"package asc, name asc" 
+				);
+				var qImplementing = QueryNew("");
+			} else {
 				//all implementing subclasses
-				qSubClass = getMetaSubquery(arguments.qMetaData, "UPPER(fullextends) LIKE UPPER('%:#arguments.qPackage.package#.#arguments.qPackage.name#:%')", "package asc, name asc");
-				qImplementing = getMetaSubquery(arguments.qMetaData, "UPPER(implements) LIKE UPPER('%:#arguments.qPackage.package#.#arguments.qPackage.name#:%')", "package asc, name asc");
+				var qSubClass = getMetaSubquery(
+					arguments.qMetaData, 
+					"UPPER(fullextends) LIKE UPPER('%:#arguments.qPackage.package#.#arguments.qPackage.name#:%')", 
+					"package asc, name asc"
+				);
+				var qImplementing = getMetaSubquery(
+					arguments.qMetaData, 
+					"UPPER(implements) LIKE UPPER('%:#arguments.qPackage.package#.#arguments.qPackage.name#:%')", 
+					"package asc, name asc"
+				);
 			}
 
-			writeTemplate(path=currentDir & "/#name#.html",
-						template="#instance.static.TEMPLATE_PATH#/class.cfm",
-						projectTitle = getProjectTitle(),
-						package = arguments.qPackage.package,
-						name = arguments.qPackage.name,
-						qSubClass = qSubClass,
-						qImplementing = qImplementing,
-						qMetadata = qMetaData,
-						metadata = safeMeta
-						);
-		</cfscript>
-	</cfloop>
-</cffunction>
+			// write it out
+			writeTemplate(
+				path			= currentDir & "/#name#.html",
+				template		= "#variables.static.TEMPLATE_PATH#/class.cfm",
+				projectTitle 	= getProjectTitle(),
+				package 		= arguments.qPackage.package,
+				name 			= arguments.qPackage.name,
+				qSubClass 		= qSubClass,
+				qImplementing 	= qImplementing,
+				qMetadata 		= qMetaData,
+				metadata 		= safeMeta
+			);
+		}
+
+		return this;
+	}
 
 
-<cffunction name="writeOverviewSummaryAndFrame" hint="writes the overview-summary.html" access="private" returntype="void" output="false">
-	<cfargument name="qMetadata" hint="the meta data query" type="query" required="Yes">
-	<cfscript>
-		var qPackages = 0;
-	</cfscript>
-		<cfquery name="qPackages" dbtype="query" debug="false">
-			SELECT DISTINCT
-				package
-			FROM
-				arguments.qMetaData
-			ORDER BY
-				package
-		</cfquery>
+	/**
+	* writes the overview-summary.html
+	* @qMetaData The metadata
+	*/
+	private HTMLAPIStrategy function writeOverviewSummaryAndFrame( required query qMetadata ){
+		var qPackages = new Query( dbtype="query", md=arguments.qMetadata, sql="
+			SELECT DISTINCT package
+			FROM md
+			ORDER BY package" )
+			.execute()
+			.getResult();
 
-	<cfscript>
-		writeTemplate(path=getOutputDir() & "/overview-summary.html",
-					template="#instance.static.TEMPLATE_PATH#/overview-summary.cfm",
-					projectTitle = getProjectTitle(),
-					qPackages = qPackages);
-
+		// overview summary
+		writeTemplate(
+			path			= getOutputDir() & "/overview-summary.html",
+			template		= "#variables.static.TEMPLATE_PATH#/overview-summary.cfm",
+			projectTitle 	= getProjectTitle(),
+			qPackages 		= qPackages
+		);
 
 		//overview frame
-		writeTemplate(path=getOutputDir() & "/overview-frame.html",
-					template="#instance.static.TEMPLATE_PATH#/overview-frame.cfm",
-					projectTitle=getProjectTitle(),
-					qMetadata = arguments.qMetadata);
-	</cfscript>
-</cffunction>
+		writeTemplate(
+			path			= getOutputDir() & "/overview-frame.html",
+			template		= "#variables.static.TEMPLATE_PATH#/overview-frame.cfm",
+			projectTitle	= getProjectTitle(),
+			qMetadata 		= arguments.qMetadata
+		);
 
-<cffunction name="writeAllClassesFrame" hint="writes the allclasses-frame.html" access="private" returntype="void" output="false">
-	<cfargument name="qMetadata" hint="the meta data query" type="query" required="Yes">
-	<cfscript>
-		arguments.qMetadata = getMetaSubquery(query=arguments.qMetaData, orderby="name asc");
+		return this;
+	}
+	
+	/**
+	* writes the allclasses-frame.html
+	* @qMetaData The metadata
+	*/
+	private HTMLAPIStrategy function writeAllClassesFrame( required query qMetadata ){
+		arguments.qMetadata = getMetaSubquery( query=arguments.qMetaData, orderby="name asc" );
 
-		writeTemplate(path=getOutputDir() & "/allclasses-frame.html",
-					template="#instance.static.TEMPLATE_PATH#/allclasses-frame.cfm",
-					qMetaData = arguments.qMetaData);
-	</cfscript>
-</cffunction>
+		writeTemplate(
+			path 		= getOutputDir() & "/allclasses-frame.html",
+			template 	= "#variables.static.TEMPLATE_PATH#/allclasses-frame.cfm",
+			qMetaData 	= arguments.qMetaData
+		);
 
-<cffunction name="getOutputDir" access="private" returntype="string" output="false">
-	<cfreturn instance.outputDir />
-</cffunction>
-
-<cffunction name="setOutputDir" access="private" returntype="void" output="false">
-	<cfargument name="outputDir" type="string" required="true">
-	<cfset instance.outputDir = arguments.outputDir />
-</cffunction>
-
-<cffunction name="getProjectTitle" access="private" returntype="string" output="false">
-	<cfreturn instance.projectTitle />
-</cffunction>
-
-<cffunction name="setProjectTitle" access="private" returntype="void" output="false">
-	<cfargument name="projectTitle" type="string" required="true">
-	<cfset instance.projectTitle = arguments.projectTitle />
-</cffunction>
-
-</cfcomponent>
+		return this;
+	}	
+}
