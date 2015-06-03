@@ -16,8 +16,8 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 	property name="projectTitle" default="Untitled" type="string";
 
 	// Static variables.
-	variables.static.TEMPLATE_PATH = "/docbox/strategy/api/resources/templates";
-	variables.static.ASSETS_PATH = "/docbox/strategy/api/resources/static";
+	variables.static.TEMPLATE_PATH	= "/docbox/strategy/api/resources/templates";
+	variables.static.ASSETS_PATH 	= "/docbox/strategy/api/resources/static";
 
 	/**
 	* Constructor
