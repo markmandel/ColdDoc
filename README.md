@@ -70,5 +70,16 @@ If installed as a command you will get a new namespace called **docbox** with a 
 
 ----
 
+
+# CREDITS & CONTRIBUTIONS
+
+Thanks to Mark Mandel for allowing us to fork his project.
+
+I THANK GOD FOR HIS WISDOM FOR THIS PROJECT
+
+## THE DAILY BREAD
+
+"I am the way, and the truth, and the life; no one comes to the Father, but by me (JESUS)" Jn 14:1-12
+
 [1]: https://github.com/Ortus-Solutions/DocBox/wiki
 [2]: https://github.com/Ortus-Solutions/DocBox
