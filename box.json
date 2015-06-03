@@ -11,7 +11,7 @@
     "bugs":"https://github.com/Ortus-Solutions/DocBox/issues",
     "slug":"docbox",
     "shortDescription":"API Documentation generator for ColdFusion (CFML)",
-    "type":"project",
+    "type":"commandbox-commands",
     "keywords":"apidocs, coldfusion docs, javadocs",
     "private":false,
     "defaultPort" : 64492,
