@@ -142,7 +142,7 @@ component doc_abstract="true" accessors="true"{
 		}
 
 		var results = getMetaSubQuery( query=qFunctions, orderby="name asc" );
-		cache[ arguments.metadata.name ] = results
+		cache[ arguments.metadata.name ] = results;
 		return results;
 	}
 	
@@ -168,7 +168,7 @@ component doc_abstract="true" accessors="true"{
 		}
 
 		var results = getMetaSubQuery( query=qProperties, orderby="name asc" );
-		cache[ arguments.metadata.name ] = results
+		cache[ arguments.metadata.name ] = results;
 		return results;
 	}
 
