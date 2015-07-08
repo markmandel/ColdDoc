@@ -1,5 +1,7 @@
 CHANGELOG
 =========
-##1.0.0
+## 2.0.1 
+* Fixes for ACF
 
-* Updated to DocBox
+##2.0.0
+* Updated to DocBox styles

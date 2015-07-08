@@ -1,6 +1,6 @@
 {
     "name":"DocBox",
-    "version":"2.0.0",
+    "version":"2.0.1",
     "author":"Ortus Solutions, Corp",
     "homepage":"http://www.ortussolutions.com",
     "documentation":"https://github.com/Ortus-Solutions/DocBox/wiki",
@@ -14,7 +14,7 @@
     "type":"commandbox-commands",
     "keywords":"apidocs, coldfusion docs, javadocs",
     "private":false,
-    "defaultPort" : 64492,
+    "defaultPort":64492,
     "license":[
         {
             "type":"Apache2",

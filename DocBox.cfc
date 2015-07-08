@@ -52,15 +52,15 @@ component accessors="true"{
 		}
 
 		// inflate the incoming input and mappings
-		var source = "";
+		var thisSource = "";
 		if( isSimpleValue( arguments.source ) ){
-			source = [ { dir = arguments.source, mapping = arguments.mapping } ];
+			thisSource = [ { dir = arguments.source, mapping = arguments.mapping } ];
 		} else {
-			source = arguments.source;
+			thisSource = arguments.source;
 		}
 
 		// build metadata collection
-		var qMetaData = buildMetaDataCollection( source, arguments.excludes );
+		var qMetaData = buildMetaDataCollection( thisSource, arguments.excludes );
 
 		// run the strategy
 		variables.strategy.run( qMetaData );
