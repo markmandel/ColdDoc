@@ -1,6 +1,6 @@
 <cfscript>
 	// init docbox with default strategy and properites
-	docbox = new DocBox( properties={ 
+	docbox = new docbox.DocBox( properties={ 
 		outputDir 		= expandPath( "./output" ),
 		projectTitle 	= "DocBox v2.0.1"
 	} );

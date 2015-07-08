@@ -3,7 +3,7 @@
 * <br>
 * <small><em>Copyright 2015 Ortus Solutions, Corp <a href="www.ortussolutions.com">www.ortussolutions.com</a></em></small>
 */
-component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
+component extends="docbox.strategy.AbstractTemplateStrategy" accessors="true"{
 
 	/**
 	* The output directory
@@ -39,7 +39,7 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 	*/
 	HTMLAPIStrategy function run( required query qMetadata ){
 		// copy over the static assets
-		directoryCopy( variables.static.ASSETS_PATH, getOutputDir(), true );
+		directoryCopy( expandPath( variables.static.ASSETS_PATH ), getOutputDir(), true );
 
 		//write the index template
 		var args = {
@@ -62,7 +62,7 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 	* writes the package summaries
 	* @qMetaData The metadata
 	*/
-	private HTMLAPIStrategy function writePackagePages( required query qMetadata ){
+	HTMLAPIStrategy function writePackagePages( required query qMetadata ){
 		var currentDir = 0;
 		var qPackage = 0;
 		var qClasses = 0;
@@ -79,12 +79,12 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 	* @qPackage the query for a specific package
 	* @qMetaData The metadata
 	*/
-	private HTMLAPIStrategy function buildClassPages( 
+	HTMLAPIStrategy function buildClassPages( 
 		required query qPackage,
 		required query qMetadata 
 	){
 		for( var thisRow in arguments.qPackage ){
-			var currentDir 	= getOutputDir() & "/" & replace( thisRow.package, ".", "/", "all" );
+			var currentDir 	= variables.outputDir & "/" & replace( thisRow.package, ".", "/", "all" );
 			var safeMeta 	= structCopy( thisRow.metadata );
 
 			// Is this a class
@@ -113,7 +113,7 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 			writeTemplate(
 				path			= currentDir & "/#name#.html",
 				template		= "#variables.static.TEMPLATE_PATH#/class.cfm",
-				projectTitle 	= getProjectTitle(),
+				projectTitle 	= variables.projectTitle,
 				package 		= arguments.qPackage.package,
 				name 			= arguments.qPackage.name,
 				qSubClass 		= qSubClass,
@@ -131,7 +131,7 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 	* writes the overview-summary.html
 	* @qMetaData The metadata
 	*/
-	private HTMLAPIStrategy function writeOverviewSummaryAndFrame( required query qMetadata ){
+	HTMLAPIStrategy function writeOverviewSummaryAndFrame( required query qMetadata ){
 		var qPackages = new Query( dbtype="query", md=arguments.qMetadata, sql="
 			SELECT DISTINCT package
 			FROM md
@@ -162,7 +162,7 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors=true{
 	* writes the allclasses-frame.html
 	* @qMetaData The metadata
 	*/
-	private HTMLAPIStrategy function writeAllClassesFrame( required query qMetadata ){
+	HTMLAPIStrategy function writeAllClassesFrame( required query qMetadata ){
 		arguments.qMetadata = getMetaSubquery( query=arguments.qMetaData, orderby="name asc" );
 
 		writeTemplate(

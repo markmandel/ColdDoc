@@ -162,7 +162,7 @@ component accessors="true"{
 				}
 				catch(Any e){
 					trace( 
-						type 		= "warn",
+						type 		= "warning",
 						category 	= "docbox",
 						inline 		= "true",
 						text 		= "Warning! The following script has errors: " & packagePath & cfcName & ". #e.toString()#" 

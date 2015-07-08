@@ -1,24 +1,25 @@
 <cfscript>
 	// Build out data
-	var classTree = {};
+	local.classTree = {};
 	// Loop over classes
-	for( var row in qMetaData ) {
+	for( local.row in qMetaData ) {
 		
-		//var class = row.name;			
-		var bracketPath = '';
+		//var class = local.row.name;			
+		local.bracketPath = '';
 		// Build bracket notation 
-		for( var item in listToArray( row.package, '.' ) ) {
-			bracketPath &= '[ "#item#" ]';
+		for( local.item in listToArray( local.row.package, '.' ) ) {
+			bracketPath &= '[ "#local.item#" ]';
 		}
 		// Set "deep" struct to create nested data
-		var link = replace( row.package, ".", "/", "all") & '/' & row.name & '.html';
-		var packagelink = replace( row.package, ".", "/", "all") & '/package-summary.html';
-		var searchList = listAppend( row.package, row.name, '.' );
-		
-		evaluate( 'classTree#bracketPath#[ "$link" ] = packageLink' );
-		evaluate( 'classTree#bracketPath#[ row.name ][ "$class"].link = link' );
-		evaluate( 'classTree#bracketPath#[ row.name ][ "$class"].searchList = searchList' );
-		evaluate( 'classTree#bracketPath#[ row.name ][ "$class"].type = row.type' );
+		local.link = replace( local.row.package, ".", "/", "all") & '/' & local.row.name & '.html';
+		local.packagelink = replace( local.row.package, ".", "/", "all") & '/package-summary.html';
+		local.searchList = listAppend( local.row.package, local.row.name, '.' );
+
+		evaluate( 'local.classTree#bracketPath#[ "$link" ] = local.packageLink' );
+		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"] = structNew()' );
+		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"].link = local.link' );
+		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"].searchList = local.searchList' );
+		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"].type = local.row.type' );
 	}
 	
 	// Recursive function to output data

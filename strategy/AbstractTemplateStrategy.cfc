@@ -122,7 +122,7 @@ component doc_abstract="true" accessors="true"{
 	*/
 	query function buildFunctionMetaData( required struct metadata ){
 		var qFunctions 	= QueryNew( "name, metadata" );
-		var cache 		= getFunctionQueryCache();
+		var cache 		= this.getFunctionQueryCache();
 
 		if( StructKeyExists( cache, arguments.metadata.name ) ){
 			return cache[ arguments.metadata.name ];
@@ -142,7 +142,7 @@ component doc_abstract="true" accessors="true"{
 		}
 
 		var results = getMetaSubQuery( query=qFunctions, orderby="name asc" );
-		cache[ arguments.metadata.name ] = results
+		cache[ arguments.metadata.name ] = results;
 		return results;
 	}
 	
@@ -151,7 +151,7 @@ component doc_abstract="true" accessors="true"{
 	*/
 	query function buildPropertyMetaData( required struct metadata ){
 		var qProperties = QueryNew( "name, metadata" );
-		var cache 		= getPropertyQueryCache();
+		var cache 		= this.getPropertyQueryCache();
 
 		if( StructKeyExists( cache, arguments.metadata.name ) ){
 			return cache[ arguments.metadata.name ];
@@ -168,7 +168,7 @@ component doc_abstract="true" accessors="true"{
 		}
 
 		var results = getMetaSubQuery( query=qProperties, orderby="name asc" );
-		cache[ arguments.metadata.name ] = results
+		cache[ arguments.metadata.name ] = results;
 		return results;
 	}
 
@@ -343,6 +343,14 @@ component doc_abstract="true" accessors="true"{
 		
 		if( NOT StructKeyExists( arguments.property, "default" ) ){
 			arguments.property.default = "";
+		}
+
+		if( NOT StructKeyExists( arguments.property, "access" ) ){
+			arguments.property.access = "public";
+		}
+
+		if( NOT StructKeyExists( arguments.property, "returntype" ) ){
+			arguments.property.returntype = "any";
 		}
 		
 		if( NOT StructKeyExists( arguments.property, "serializable" ) ){
