@@ -7,7 +7,7 @@
 ╚═════╝  ╚═════╝  ╚═════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
 ```
 
-# Welcome to DocBox v2.0.1!
+# Welcome to DocBox v2.0.2!
 
 DocBox is a fork of the ColdDoc project originally created by Mark Mandel.  Documentation for DocBox can be found on the [GitHub Wiki][1] and in this Readme. The main Git repository and downloads can be found on [GitHub][2].  There is also a help forum located at https://groups.google.com/a/ortussolutions.com/forum/#!forum/docbox
 
