@@ -91,7 +91,7 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors="true"{
 			if( safeMeta.type eq "component" ){
 				var qSubClass = getMetaSubquery( 
 					arguments.qMetaData, 
-					"UPPER(extends) = UPPER('#arguments.qPackage.package#.#arguments.qPackage.name#')", 
+					"UPPER( extends ) = UPPER( '#thisRow.package#.#thisRow.name#' )", 
 					"package asc, name asc" 
 				);
 				var qImplementing = QueryNew("");
@@ -99,23 +99,23 @@ component extends="docbox.strategy.AbstractTemplateStrategy" accessors="true"{
 				//all implementing subclasses
 				var qSubClass = getMetaSubquery(
 					arguments.qMetaData, 
-					"UPPER(fullextends) LIKE UPPER('%:#arguments.qPackage.package#.#arguments.qPackage.name#:%')", 
+					"UPPER(fullextends) LIKE UPPER('%:#thisRow.package#.#thisRow.name#:%')", 
 					"package asc, name asc"
 				);
 				var qImplementing = getMetaSubquery(
 					arguments.qMetaData, 
-					"UPPER(implements) LIKE UPPER('%:#arguments.qPackage.package#.#arguments.qPackage.name#:%')", 
+					"UPPER(implements) LIKE UPPER('%:#thisRow.package#.#thisRow.name#:%')", 
 					"package asc, name asc"
 				);
 			}
 
 			// write it out
 			writeTemplate(
-				path			= currentDir & "/#name#.html",
+				path			= currentDir & "/#thisRow.name#.html",
 				template		= "#variables.static.TEMPLATE_PATH#/class.cfm",
 				projectTitle 	= variables.projectTitle,
-				package 		= arguments.qPackage.package,
-				name 			= arguments.qPackage.name,
+				package 		= thisRow.package,
+				name 			= thisRow.name,
 				qSubClass 		= qSubClass,
 				qImplementing 	= qImplementing,
 				qMetadata 		= qMetaData,
