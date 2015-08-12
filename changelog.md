@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+## 2.0.3
+* FireFox location bug
+
 ## 2.0.2
 * Fixes on conversion to script
 * Updates on box.json for standalone installations
