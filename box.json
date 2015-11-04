@@ -1,6 +1,6 @@
 {
     "name":"DocBox",
-    "version":"2.0.3",
+    "version":"2.0.4",
     "author":"Ortus Solutions, Corp",
     "homepage":"http://www.ortussolutions.com",
     "documentation":"https://github.com/Ortus-Solutions/DocBox/wiki",
@@ -12,7 +12,8 @@
     "slug":"docbox",
     "shortDescription":"API Documentation generator for ColdFusion (CFML)",
     "type":"commandbox-commands",
-    "createPackage" : true,
+    "createPackageDirectory" : true,
+    "packageDirectory" : "docbox",
     "keywords":"apidocs, coldfusion docs, javadocs",
     "private":false,
     "defaultPort":64492,

@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+## 2.0.4
+* Update package directory and location for CommandBox command
+
 ## 2.0.3
 * FireFox location bug
 
