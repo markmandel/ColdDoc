@@ -7,7 +7,7 @@
 ╚═════╝  ╚═════╝  ╚═════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
 ```
 
-# Welcome to DocBox v2.0.4!
+# Welcome to DocBox v2.0.5!
 
 DocBox is a fork of the ColdDoc project originally created by Mark Mandel.  Documentation for DocBox can be found on the [GitHub Wiki][1] and in this Readme. The main Git repository and downloads can be found on [GitHub][2].  There is also a help forum located at https://groups.google.com/a/ortussolutions.com/forum/#!forum/docbox
 
@@ -19,7 +19,10 @@ Apache License, Version 2.0.
 - ColdFusion 10+
 
 ## Instructions
-You can use DocBox as a standalone application or install it as a CommandBox command via CommandBox: `box install docbox`.  
+Use the DocBox library to generate API docs from your CFC files.  Install Docbox with CommandBox like so:
+```bash
+box install docbox
+```  
 
 ### Standalone Application
 If you want to use DocBox for document generation in your CFML application, then just drop it into any location and create a `/docbox` mapping to it.  You will then instantiate the `DocBox` generator class with a `strategy` and `properties` for the strategy.
@@ -65,8 +68,11 @@ Once the generation finalizes, you will see your beautiful docs!
   * `outputFile` : The output file
 
 ### CommandBox Command
-If installed as a command you will get a new namespace called **docbox** with a **Generate** command.  Type `docbox generate help` to see its usage, which is very similar to the instructions above.
-
+There is a related project you can install which wraps up the DocBox libraray in a Custom CLI command so you can generate API docs from the command line.
+```bash
+box install commandbox-docbox
+```
+Read more here: https://github.com/Ortus-Solutions/commandbox-docbox
 
 ----
 
