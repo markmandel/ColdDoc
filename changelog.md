@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+## 2.0.5
+* Moved CommandBox command to its own repo
+
 ## 2.0.4
 * Update package directory and location for CommandBox command
 
