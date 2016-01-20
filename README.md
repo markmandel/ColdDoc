@@ -14,6 +14,9 @@ DocBox is a fork of the ColdDoc project originally created by Mark Mandel.  Docu
 ## LICENSE
 Apache License, Version 2.0.
 
+## BUGS + NEW FEATURES
+Please use our Jira instance to create bugs and new feature issues: https://ortussolutions.atlassian.net/projects/DOCBOX
+
 ## SYSTEM REQUIREMENTS
 - Lucee 4.5+
 - ColdFusion 10+
