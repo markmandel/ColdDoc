@@ -50,7 +50,7 @@ Class
 <cfset local.i = 0 />
 
 <cfset local.ls = createObject("java", "java.lang.System").getProperty("line.separator") />
-<cfset local.buffer = createObject("java", "java.lang.StringBuffer").init() />
+<cfset local.buffer = createObject("java", "java.lang.StringBuilder").init() />
 <cfset local.thisClass = arguments.package & "." & arguments.name/>
 
 <cfloop array="#getInheritence(arguments.metadata)#" index="className">
