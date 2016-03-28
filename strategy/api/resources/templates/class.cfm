@@ -106,7 +106,7 @@ Class
   	<div class="panel-body">
 	<cfloop query="arguments.qsubclass">
 		<cfif arguments.qsubclass.currentrow neq 1>,</cfif>
-		<a href="#instance.class.root#/#replace(arguments.qsubclass.package, '.', '/', 'all')#/#arguments.qsubclass.name#.html" title="class in #arguments.package#">#arguments.qsubclass.name#</a>
+		<a href="#instance.class.root##replace(arguments.qsubclass.package, '.', '/', 'all')#/#arguments.qsubclass.name#.html" title="class in #arguments.package#">#arguments.qsubclass.name#</a>
 	</cfloop>
 	</div>
 </div>
@@ -361,7 +361,7 @@ Class
 					<cfif i++ neq 1>
 						<cfset local.buffer.append(", ") />
 					</cfif>
-					<cfset local.buffer.append('<a href="#instance.class.root#/#replace(getPackage(local.localmeta.name), '.', '/', 'all')#/#getObjectName(local.localmeta.name)#.html###local.func.name#()">#local.func.name#</a>') />
+					<cfset local.buffer.append('<a href="#instance.class.root##replace(getPackage(local.localmeta.name), '.', '/', 'all')#/#getObjectName(local.localmeta.name)#.html###local.func.name#()">#local.func.name#</a>') />
 					<cfset local.localFunctions[local.func.name] = 1 />
 					</cfif>
 				</cfloop>
@@ -490,7 +490,7 @@ Class
 				<dt><strong>Specified by:</strong></dt>
 				<dd>
 				<code>
-				<a href="#instance.class.root#/#replace(getPackage(local.specified), '.', '/', 'all')#/#getObjectName(local.specified)#.html###local.func.name#()">#local.func.name#</a></code>
+				<a href="#instance.class.root##replace(getPackage(local.specified), '.', '/', 'all')#/#getObjectName(local.specified)#.html###local.func.name#()">#local.func.name#</a></code>
 				in interface
 				<code>
 					#writeClassLink(getPackage(local.specified), getObjectName(local.specified), arguments.qMetaData, 'short')#
@@ -506,7 +506,7 @@ Class
 			<dt><strong>Overrides:</strong></dt>
 			<dd>
 			<code>
-			<a href="#instance.class.root#/#replace(getPackage(local.overWrites), '.', '/', 'all')#/#getObjectName(local.overWrites)#.html###local.func.name#()">#local.func.name#</a></code>
+			<a href="#instance.class.root##replace(getPackage(local.overWrites), '.', '/', 'all')#/#getObjectName(local.overWrites)#.html###local.func.name#()">#local.func.name#</a></code>
 			in class
 			<code>
 				#writeClassLink(getPackage(local.overWrites), getObjectName(local.overWrites), arguments.qMetaData, 'short')#
