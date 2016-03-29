@@ -115,9 +115,6 @@
 		<!-- Copy over box.json to root for convenience -->
 		<copy todir="${dir.exports}" file="${dir.build}/box.json" overwrite="true" encoding="UTF-8" />
 				  
-		<!-- Cleanup -->
-		<delete dir="${dir.build}" />
-
 		<!-- Stop Server -->
 		<exec executable="box" dir="${basedir}">
 			<arg line="server stop" />
