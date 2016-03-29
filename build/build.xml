@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<project name="build" basedir="../" default="build">
+	<!-- Version: UPDATE ON EACH RELEASE AS NEEDED -->
+	<property name="project.name" 		value="docbox" />
+	<property name="module.name" 		value="docbox" />
+	<property name="project.version" 	value="2.0.6"/>
+	<property name="groupID" 			value="ortussolutions" />
+	
+	<!-- Build Labels -->
+	<tstamp prefix="start"/>
+	<path id="cp">
+		<fileset dir="build/lib">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+	<!-- Define Tasks -->
+	<taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="cp" />
+	<!-- Import Box-Repo Tasks -->
+	<import><url url="https://raw.githubusercontent.com/Ortus-Solutions/box-tasks/master/box-repo.xml"/></import>
+	
+	<!-- Init -->
+	<target name="init" description="Init Build" unless="src.isInit">
+		<!-- Default environment check, if not passed via -Denvironment -->
+		<condition property="environment" value="local">
+			<not><isset property="environment" /></not>
+		</condition>
+		<if>
+			<available file="build/build-${environment}.properties" />
+			<then>
+				<!-- Load env properties -->
+				<echo>Loading properties from environment: ${environment}</echo>
+				<loadproperties srcFile="build/build-${environment}.properties"/>
+			</then>
+		</if>
+		<!-- Load root properties -->
+		<echo>Loading base properties</echo>
+		<loadproperties srcFile="build/build.properties"/>
+
+		<!-- Build Number -->
+		<propertyfile file="build/build.number" comment="Build Number for ANT. Edit not!">
+			<entry key="build.number" 
+					type="int" 
+			     	operation="+"
+					pattern="00000"
+			     	default="1" />
+		</propertyfile>
+		<property file="build/build.number"/>
+		
+		<!-- Build Label -->
+		<property name="build.label" value="${project.name}-${project.version}+${build.number}-${start.DSTAMP}${start.TSTAMP}"/>
+		<!-- Get Build Dependencies -->
+ 		<antcall target="getDependencies" />
+		<!-- Cleanup + Init -->
+		<delete dir="${dir.build}" />
+		<mkdir dir="${dir.build}"/>
+		<chmod file="${dir.build}/**" perm="og+wrs" type="both" />
+		<!-- Mark as init -->
+		<property name="src.isInit" value="true" />
+
+		<!-- Startup the server, wait for a few seconds for server to start -->
+		<exec executable="box" dir="${basedir}">
+			<arg line="server start" />
+		</exec>
+
+	</target>
+	
+	<!-- Build Project -->
+	<target name="build" depends="init" description="Build the project">
+		<!-- Copy build ID -->
+		<concat destfile="${dir.build}/${build.label}">Built on ${start.TODAY}</concat>
+		
+		<!-- Copy Source -->	
+      	<copy todir="${dir.build}" encoding="UTF-8">
+        	<fileset dir="strategy" />
+        	<fileset file="box.json" />
+        	<fileset file="changelog.md" />
+        	<fileset file="DocBox.cfc" />
+        	<fileset file="README.md" />
+        </copy>
+        
+        <!-- Replace Version + Build Numbers -->
+		<replaceregexp match='@build.version@' replace="${project.version}" flags="ig" byline="true" encoding="UTF-8">
+		  <fileset dir="${dir.build}" />
+		</replaceregexp>
+		<replaceregexp match='@build.number@' replace="${build.number}" flags="ig" byline="true" encoding="UTF-8">
+		  <fileset dir="${dir.build}" />
+		</replaceregexp>
+		
+		<!-- Api Docs -->
+		<antcall target="build.apidocs" />
+        
+        <!-- Zip Project -->
+		<zip destfile="${dir.exports}/${project.name}-${project.version}.zip" basedir="${dir.build}"></zip>
+		
+		<!-- Build Checksums -->
+		<checksum forceoverwrite="true" fileext=".md5">
+			<fileset dir="${dir.exports}">
+				<include name="*.zip" />
+			</fileset>
+		</checksum>
+		<checksum forceoverwrite="true" algorithm="SHA-512" fileext=".sha512">
+			<fileset dir="${dir.exports}">
+				<include name="*.zip" />
+			</fileset>
+		</checksum>
+		
+		<!-- Create Box Repo From macrodef -->
+		<box-repo location="${dir.artifacts}/${project.name}" 
+				  artifactID="${project.name}" 
+				  buildID="${build.number}"
+				  groupID="${groupID}"
+				  latest="${project.version}"
+				  classifiers="apidocs"/>
+
+		<!-- Copy over box.json to root for convenience -->
+		<copy todir="${dir.exports}" file="${dir.build}/box.json" overwrite="true" encoding="UTF-8" />
+				  
+		<!-- Stop Server -->
+		<exec executable="box" dir="${basedir}">
+			<arg line="server stop" />
+		</exec>
+	</target>
+	
+	<!-- Build API Docs -->
+ 	<target name="build.apidocs" description="Builds the api docs" depends="init">
+ 		<!-- Create API apidocs dir -->
+ 		<mkdir dir="${dir.api}"/>
+		<!-- Get the apidocs -->
+		<get dest="${dir.build}/docbox.html" 
+			 src="${url.apidocs}?version=${project.version}&amp;path=${dir.api}" 
+			 verbose="true"
+			 retries="5"/>
+		<delete file="${dir.build}/docbox.html" />
+		<!-- Zip API Docs -->
+		<zip destfile="${dir.exports}/${project.name}-apidocs-${project.version}.zip" basedir="${dir.api}"></zip>
+ 	</target>
+	
+    <!-- Get Dependencies -->
+	<target name="getDependencies" description="Get all the necessary dependencies for the build process">
+		<!-- Install dependencies for project -->
+		<exec executable="box" dir="${basedir}">
+			<arg line="install" />
+		</exec>
+	</target>
+
+</project>

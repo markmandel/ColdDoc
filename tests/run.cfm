@@ -1,11 +1,20 @@
+<cfparam name="url.version" default="0">
+<cfparam name="url.path" 	default="#expandPath( "./DocBox-APIDocs" )#">
 <cfscript>
+	docName = "DocBox-APIDocs";
 	// init docbox with default strategy and properites
 	docbox = new docbox.DocBox( properties={ 
-		outputDir 		= expandPath( "./output" ),
-		projectTitle 	= "DocBox v2.0.1"
+		projectTitle 	= "DocBox v#url.version#",
+		outputDir 		= url.path
 	} );
 	// generate
-	docbox.generate( source=expandPath("/docbox"), mapping="docbox", excludes="coldbox" );
+	docbox.generate( 
+		source=expandPath( "/docbox" ), 
+		mapping="docbox", 
+		excludes="(coldbox|build\-docbox)" 
+	);
 </cfscript>
 <h1>Done!</h1>
-<a href="output">View Docs</a>
+<cfoutput>
+<a href="#docName#/index.html">Go to Docs!</a>
+</cfoutput>

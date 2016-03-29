@@ -7,12 +7,15 @@
 ╚═════╝  ╚═════╝  ╚═════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝
 ```
 
-# Welcome to DocBox v2.0.5!
+# Welcome to DocBox v@build.version@+@build.number@!
 
 DocBox is a fork of the ColdDoc project originally created by Mark Mandel.  Documentation for DocBox can be found on the [GitHub Wiki][1] and in this Readme. The main Git repository and downloads can be found on [GitHub][2].  There is also a help forum located at https://groups.google.com/a/ortussolutions.com/forum/#!forum/docbox
 
 ## LICENSE
 Apache License, Version 2.0.
+
+## BUGS + NEW FEATURES
+Please use our Jira instance to create bugs and new feature issues: https://ortussolutions.atlassian.net/projects/DOCBOX
 
 ## SYSTEM REQUIREMENTS
 - Lucee 4.5+
