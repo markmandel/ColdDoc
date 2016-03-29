@@ -2,7 +2,9 @@ CHANGELOG
 =========
 
 ## 2.0.6
-# DOCBOX-1 - Extra slash breaks some links on S3-hosted docs
+* DOCBOX-1 - Extra slash breaks some links on S3-hosted docs
+* Updated build process
+* Travis integration
 
 ## 2.0.5
 * Moved CommandBox command to its own repo
