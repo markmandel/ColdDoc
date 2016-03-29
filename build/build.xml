@@ -111,6 +111,9 @@
 				  groupID="${groupID}"
 				  latest="${project.version}"
 				  classifiers="apidocs"/>
+
+		<!-- Copy over box.json to root for convenience -->
+		<copy todir="${dir.exports}" file="${dir.build}/box.json" overwrite="true" encoding="UTF-8" />
 				  
 		<!-- Cleanup -->
 		<delete dir="${dir.build}" />

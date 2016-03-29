@@ -7,3 +7,4 @@ tests/node_modules
 build/build.number
 artifacts/*
 build-docbox/*
+tests/DocBox-APIDocs

@@ -11,8 +11,10 @@
 	docbox.generate( 
 		source=expandPath( "/docbox" ), 
 		mapping="docbox", 
-		excludes="coldbox" 
+		excludes="(coldbox|build\-docbox)" 
 	);
 </cfscript>
 <h1>Done!</h1>
+<cfoutput>
 <a href="#docName#/index.html">Go to Docs!</a>
+</cfoutput>
