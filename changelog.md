@@ -1,6 +1,9 @@
 CHANGELOG
 =========
 
+## 2.0.7
+* Build process messed up folder structure. Basically 2.0.6 was unusable
+
 ## 2.0.6
 * DOCBOX-1 - Extra slash breaks some links on S3-hosted docs
 * Updated build process
