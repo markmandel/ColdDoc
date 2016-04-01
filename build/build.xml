@@ -3,7 +3,7 @@
 	<!-- Version: UPDATE ON EACH RELEASE AS NEEDED -->
 	<property name="project.name" 		value="docbox" />
 	<property name="module.name" 		value="docbox" />
-	<property name="project.version" 	value="2.1.0"/>
+	<property name="project.version" 	value="2.0.7"/>
 	<property name="groupID" 			value="ortussolutions" />
 	
 	<!-- Build Labels -->
@@ -71,11 +71,13 @@
 		
 		<!-- Copy Source -->	
       	<copy todir="${dir.build}" encoding="UTF-8">
-        	<fileset dir="strategy" />
-        	<fileset file="box.json" />
-        	<fileset file="changelog.md" />
-        	<fileset file="DocBox.cfc" />
-        	<fileset file="README.md" />
+        	<fileset dir="${basedir}">
+        		<exclude name="build/**" />
+        		<exclude name="build-docbox/**" />
+        		<exclude name="tests/**" />
+        		<exclude name=".*" />
+        		<exclude name="server.json" />
+        	</fileset>
         </copy>
         
         <!-- Replace Version + Build Numbers -->
