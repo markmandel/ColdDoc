@@ -77,7 +77,7 @@ component accessors="true"{
 	*/
 	private function cleanPath( required path, required inputDir ){
 		var currentPath = replace( getDirectoryFromPath( arguments.path ), arguments.inputDir, "" );
-        currentPath 	= reReplace( currentPath, "[/\\]", "" );
+        currentPath 	= reReplace( currentPath, "$[/\\]", "" );
         currentPath 	= reReplace( currentPath, "[/\\]", ".", "all" );
         return rEReplace( currentPath, "\.$", "" );
 	}
