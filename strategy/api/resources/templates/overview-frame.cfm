@@ -8,20 +8,20 @@
 		local.bracketPath = '';
 		// Build bracket notation 
 		for( local.item in listToArray( local.row.package, '.' ) ) {
-			bracketPath &= '[ "#local.item#" ]';
+			local.bracketPath &= '[ "#local.item#" ]';
 		}
 		// Set "deep" struct to create nested data
 		local.link = replace( local.row.package, ".", "/", "all") & '/' & local.row.name & '.html';
 		local.packagelink = replace( local.row.package, ".", "/", "all") & '/package-summary.html';
 		local.searchList = listAppend( local.row.package, local.row.name, '.' );
-
-		evaluate( 'local.classTree#bracketPath#[ "$link" ] = local.packageLink' );
-		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"] = structNew()' );
-		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"].link = local.link' );
-		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"].searchList = local.searchList' );
-		evaluate( 'local.classTree#bracketPath#[ local.row.name ][ "$class"].type = local.row.type' );
-	}
 	
+		evaluate( 'local.classTree#local.bracketPath#[ "$link" ] = local.packageLink' );
+		evaluate( 'local.classTree#local.bracketPath#[ local.row.name ][ "$class"] = structNew()' );
+		evaluate( 'local.classTree#local.bracketPath#[ local.row.name ][ "$class"].link = local.link' );
+		evaluate( 'local.classTree#local.bracketPath#[ local.row.name ][ "$class"].searchList = local.searchList' );
+		evaluate( 'local.classTree#local.bracketPath#[ local.row.name ][ "$class"].type = local.row.type' );
+	}
+		
 	// Recursive function to output data
 	function writeItems( struct startingLevel ) {
 		for( var item in startingLevel ) {

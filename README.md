@@ -23,6 +23,7 @@ Please use our Jira instance to create bugs and new feature issues: https://ortu
 
 ## Instructions
 Use the DocBox library to generate API docs from your CFC files.  Install Docbox with CommandBox like so:
+
 ```bash
 box install docbox
 ```  
@@ -31,7 +32,7 @@ box install docbox
 If you want to use DocBox for document generation in your CFML application, then just drop it into any location and create a `/docbox` mapping to it.  You will then instantiate the `DocBox` generator class with a `strategy` and `properties` for the strategy.
 
 ```js
-// signature
+// use custom strategy found at class.path
 docbox = new DocBox( strategy="class.path", properties={} );
 
 // create with default strategy
@@ -55,7 +56,7 @@ To generate the documentation you will then execute the `generate()` method on t
 docbox.generate( source="/my/path", mapping="coldbox" );
 
 docbox.generate(
-    source  = "#expandPath( '/docbox' )",
+    source  = "#expandPath( '/docbox' )#",
     mapping = "coldbox",
     excludes = "tests"
 );

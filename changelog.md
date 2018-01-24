@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+## 2.1.0
+* Varscoping issue to help with COMMANDBOX-399
+* BUGFIX: Missing pound sign in ExpandPath(), added better wording for custom strategy path
+* Fix cleanPath without a leading slash with regex updates
+
 ## 2.0.7
 * Build process messed up folder structure. Basically 2.0.6 was unusable
 
