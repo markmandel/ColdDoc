@@ -1,8 +1,8 @@
 /**
-* Core DocBox documentation class
-* <br>
-* <small><em>Copyright 2015 Ortus Solutions, Corp <a href="www.ortussolutions.com">www.ortussolutions.com</a></em></small>
-*/
+ * Core DocBox documentation class
+ * <br>
+ * <small><em>Copyright 2015 Ortus Solutions, Corp <a href="www.ortussolutions.com">www.ortussolutions.com</a></em></small>
+ */
 component accessors="true"{
 
 	/**
@@ -16,13 +16,13 @@ component accessors="true"{
 	* we create the default strategy of 'docbox.strategy.api.HTMLAPIStrategy'
 	* @properties The struct of properties to instantiate the strategy with.
 	*/
-	DocBox function init( 
+	DocBox function init(
 		any strategy ="docbox.strategy.api.HTMLAPIStrategy",
 		struct properties={}
 	){
 		// if instance?
 		if( isObject( arguments.strategy ) ){
-			variables.strategy = arguments.strategy;	
+			variables.strategy = arguments.strategy;
 		} else {
 			// Create it
 			variables.strategy = new "#arguments.strategy#"( argumentCollection=arguments.properties );
@@ -37,15 +37,15 @@ component accessors="true"{
 	* @mapping The base mapping for the folder. Only required if the source is a string
 	* @excludes	A regex that will be applied to the input source to exclude from the docs
 	*/
-	DocBox function generate( 
-		required source, 
+	DocBox function generate(
+		required source,
 		string mapping="",
 		string excludes=""
 	){
 		// verify we have a strategy
 		if( isNull( variables.strategy ) ){
-			throw( 
-				type 	= "StrategyNotSetException", 
+			throw(
+				type 	= "StrategyNotSetException",
 				message = "No Template Strategy has been set.",
 				detail 	= "Create a Template Strategy, and set it with setStrategy() before calling generate() or pass it via the constructor."
 			);
@@ -89,7 +89,7 @@ component accessors="true"{
 	*/
 	query function buildMetaDataCollection( required array inputSource, string excludes="" ){
 		var qMetaData = QueryNew( "package,name,extends,metadata,type,implements,fullextends,currentMapping" );
-		
+
 		// iterate over input sources
 		for( var thisInput in arguments.inputSource ){
 			var aFiles = directoryList( thisInput.dir, true, "path", "*.cfc" );
@@ -107,7 +107,7 @@ component accessors="true"{
                 var packagePath = thisInput.mapping;
                 if( len( currentPath ) ){
                 	packagePath = ListAppend( thisInput.mapping, currentPath, "." );
-                } 
+                }
                 // setup cfc name
                 var cfcName = listFirst( getFileFromPath( thisFile ), "." );
 
@@ -137,12 +137,12 @@ component accessors="true"{
 	                QuerySetCell( qMetaData, "metadata", 		meta );
 					QuerySetCell( qMetaData, "type", 	 		meta.type );
 					QuerySetCell( qMetaData, "currentMapping", 	thisInput.mapping );
-					
+
 					// Get implements
 					var implements = getImplements( meta );
 					implements = listQualify( arrayToList( implements ), ':' );
 					QuerySetCell( qMetaData, "implements", implements );
-					
+
 					// Get inheritance
 					var fullextends = getInheritance( meta );
 					fullextends = listQualify( arrayToList( fullextends ), ':' );
@@ -161,11 +161,11 @@ component accessors="true"{
 
 				}
 				catch(Any e){
-					trace( 
+					trace(
 						type 		= "warning",
 						category 	= "docbox",
 						inline 		= "true",
-						text 		= "Warning! The following script has errors: " & packagePath & cfcName & ". #e.toString()#" 
+						text 		= "Warning! The following script has errors: " & packagePath & cfcName & ". #e.toString()#"
 					);
 				}
 
