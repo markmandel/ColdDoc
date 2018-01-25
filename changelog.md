@@ -1,6 +1,10 @@
 CHANGELOG
 =========
 
+## 2.2.0
+* Better output of trace commands for CLI integration
+* Added `@throws` annotation to function definitions
+* Added `@deprecated` annotation to function definitions
 ## 2.1.0
 * Varscoping issue to help with COMMANDBOX-399
 * BUGFIX: Missing pound sign in ExpandPath(), added better wording for custom strategy path

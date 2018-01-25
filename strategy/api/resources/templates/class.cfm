@@ -168,9 +168,9 @@ Class
 				  !listFindNoCase( "hint,extends,fullname,functions,hashcode,name,path,properties,type,remoteaddress", local.cfcmeta ) >
 			<cfset local.cfcAttributesCount++>
 			<li class="label label-danger label-annotations">
-				#lcase( local.cfcmeta )# 
+				#lcase( local.cfcmeta )#
 				<cfif len( arguments.metadata[ local.cfcmeta ] )>
-				: #arguments.metadata[ local.cfcmeta ]#		
+				: #arguments.metadata[ local.cfcmeta ]#
 				</cfif>
 			</li>
 			&nbsp;
@@ -185,7 +185,7 @@ Class
 <cfscript>
 	instance.class.cache = StructNew();
 	local.localFunctions = StructNew();
-	
+
 	local.qFunctions = buildFunctionMetaData(arguments.metadata);
 	local.qProperties = buildPropertyMetadata(arguments.metadata);
 
@@ -228,7 +228,7 @@ Class
 			<code>#writetypelink(local.prop.type, arguments.package, arguments.qmetadata, local.prop)#</code>
 		</td>
 		<td>
-			#writeMethodLink(arguments.name, arguments.package, local.prop, arguments.qMetaData)# 
+			#writeMethodLink(arguments.name, arguments.package, local.prop, arguments.qMetaData)#
 			<br>
 			<cfif StructKeyExists( local.prop, "hint" ) AND Len( local.prop.hint )>
 			<!-- only grab the first sentence of the hint -->
@@ -365,7 +365,7 @@ Class
 					<cfset local.localFunctions[local.func.name] = 1 />
 					</cfif>
 				</cfloop>
-				
+
 				<cfif local.buffer.length()>
 					#local.buffer.toString()#
 				<cfelse>
@@ -427,7 +427,7 @@ Class
 		<h3>#local.prop.name#</h3>
 
 		<kbd>
-			property #writeTypeLink(local.prop.type, arguments.package, arguments.qMetaData, local.prop)# 
+			property #writeTypeLink(local.prop.type, arguments.package, arguments.qMetaData, local.prop)#
 			#writeMethodLink(arguments.name, arguments.package, local.prop, arguments.qMetaData, false)#
 			<cfif structKeyExists( local.prop, "default" ) and len( local.prop.default )>
 			= [#local.prop.default#]
@@ -473,14 +473,26 @@ Class
 <cfloop query="local.qFunctions">
 	<cfset local.func = local.qFunctions.metadata />
 	<a name="#local.func.name#()"><!-- --></a>
-	<h3>#local.func.name#</h3>
-	
+	<h3>
+		#local.func.name#
+		<cfif structKeyExists( local.func, "deprecated" )>
+			<span class="label label-danger">Deprecated</span>
+		</cfif>
+	</h3>
+
 	<kbd>#local.func.access# #writeTypeLink(local.func.returnType, arguments.package, arguments.qMetaData, local.func)# #writeMethodLink(arguments.name, arguments.package, local.func, arguments.qMetaData, false)#</kbd>
-	
+
 	<br><br>
 
 	<cfif StructKeyExists(local.func, "hint") AND Len(local.func.hint)>
 		<p>#local.func.hint#</p>
+	</cfif>
+
+	<cfif StructKeyExists(local.func, "deprecated") AND isSimplevalue(local.func.deprecated)>
+		<dl>
+			<dt><span class="label label-danger"><strong>Deprecated:</strong></span></dt>
+			<dd>#local.func.deprecated#</dd>
+		</dl>
 	</cfif>
 
 	<cfif arguments.metadata.type eq "component">
@@ -528,6 +540,13 @@ Class
 		<dl>
 			<dt><strong>Returns:</strong></dt>
 			<dd>#local.func.return#</dd>
+		</dl>
+	</cfif>
+
+	<cfif StructKeyExists(local.func, "throws") AND isSimplevalue(local.func.throws)>
+		<dl>
+			<dt><strong>Throws:</strong></dt>
+			<dd>#local.func.throws#</dd>
 		</dl>
 	</cfif>
 
