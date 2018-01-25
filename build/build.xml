@@ -79,8 +79,8 @@
 
 	<!-- Build Project -->
 	<target name="build" depends="init" description="Build the project">
-		<!-- Copy build ID -->
-		<concat destfile="${dir.build}/${build.label}">Built on ${start.TODAY}</concat>
+		<!-- Create Version Identifier -->
+		<concat destfile="${dir.build}/.version">{ "version" : "${project.version}" }</concat>
 
 		<!-- Copy Source -->
       	<copy todir="${dir.build}" encoding="UTF-8">
