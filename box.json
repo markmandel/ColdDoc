@@ -1,0 +1,38 @@
+{
+    "name": "DocBox",
+    "version": "@build.version@+@build.number@",
+    "author": "Ortus Solutions, Corp",
+    "location": "http://downloads.ortussolutions.com/ortussolutions/docbox/@build.version@/docbox-@build.version@.zip",
+    "homepage": "https://www.ortussolutions.com",
+    "documentation": "https://github.com/Ortus-Solutions/DocBox/wiki",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Ortus-Solutions/DocBox"
+    },
+    "bugs": "https://ortussolutions.atlassian.net/projects/DOCBOX",
+    "slug": "docbox",
+    "shortDescription": "API Documentation generator for ColdFusion (CFML)",
+    "type": "projects",
+    "keywords": "apidocs, coldfusion docs, javadocs, cfc docs",
+    "license": [{
+        "type": "Apache2",
+        "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    }],
+    "contributors": [
+        "Brad Wood <brad@bradwood.com>"
+    ],
+    "dependencies": {
+
+    },
+    "devDependencies": {
+
+    },
+    "installPaths": {
+
+    },
+    "ignore": [
+        "**/.*",
+        "tests/**",
+        "run.cfm"
+    ]
+}

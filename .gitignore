@@ -1,6 +1,10 @@
 #ignore these files
-.*
 !.gitignore
 settings.xml
 *.iml
-docs/*
+tests/output/*
+tests/node_modules
+build/build.number
+artifacts/*
+build-docbox/*
+tests/DocBox-APIDocs
