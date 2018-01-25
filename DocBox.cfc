@@ -1,5 +1,6 @@
 /**
  * Core DocBox documentation class
+ * @author Luis Majano <lmajano@ortussolutions.com>
  * <br>
  * <small><em>Copyright 2015 Ortus Solutions, Corp <a href="www.ortussolutions.com">www.ortussolutions.com</a></em></small>
  */
@@ -12,6 +13,7 @@ component accessors="true"{
 
 	/**
 	* Constructor
+
 	* @strategy The optional strategy to generate the documentation with. This can be a class path or an instance of the strategy. If none is passed then
 	* we create the default strategy of 'docbox.strategy.api.HTMLAPIStrategy'
 	* @properties The struct of properties to instantiate the strategy with.
@@ -32,11 +34,15 @@ component accessors="true"{
 	}
 
 	/**
-	* Generate the docs
-	* @source Either, the string directory source, OR an array of structs containing 'dir' and 'mapping' key
-	* @mapping The base mapping for the folder. Only required if the source is a string
-	* @excludes	A regex that will be applied to the input source to exclude from the docs
-	*/
+	 * Generate the docs
+	 *
+	 * @source Either, the string directory source, OR an array of structs containing 'dir' and 'mapping' key
+	 * @mapping The base mapping for the folder. Only required if the source is a string
+	 * @excludes	A regex that will be applied to the input source to exclude from the docs
+	 *
+	 * @throws StrategyNotSetException
+	 * @return The DocBox instance
+	 */
 	DocBox function generate(
 		required source,
 		string mapping="",
@@ -167,6 +173,11 @@ component accessors="true"{
 						inline 		= "true",
 						text 		= "Warning! The following script has errors: " & packagePath & cfcName & ": #e.message() & e.detail & e.stacktrace#"
 					);
+					if( structKeyExists( server, "lucee" ) ){
+						systemOutput( "Warning! The following script has errors: " & packagePath & cfcName, true );
+						systemOutput( "#e.message() & e.detail#", true );
+						systemOutput( e.stackTrace );
+					}
 				}
 
 			} // end qFiles iteration
@@ -223,6 +234,20 @@ component accessors="true"{
 		}
 
 		return inheritence;
+	}
+
+	/**
+	 * Undocumented function
+	 *
+	 * @deprecated This is no longer in use.
+	 * @param1 param 1
+	 * @param2 param 2
+	 *
+	 * @throws Throws X,Y and Z
+	 * @return Nothing
+	 */
+	function testFunction( param1, param2 ){
+
 	}
 
 }
