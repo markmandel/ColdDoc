@@ -31,7 +31,7 @@ script:
   # Execute build via ANT
   - ant -DisTravis=true -Dbuild.number=$TRAVIS_BUILD_NUMBER -Dbuild.branch=$TRAVIS_BRANCH -f build/build.xml
   # Set Current Version
-  - BUILD_VERSION=`cat $TRAVIS_BUILD_DIR/artifacts/docbox/box.json | jq '.version' -r`
+  - BUILD_VERSION=`cat $TRAVIS_BUILD_DIR/build-docbox/.version | jq '.version' -r`
   - echo "DocBox v$BUILD_VERSION"
 
 after_failure:
@@ -75,4 +75,4 @@ deploy:
     acl: public_read
 
 after_deploy:
-  - cd $TRAVIS_BUILD_DIR/build-testbox && box forgebox publish
+  - cd $TRAVIS_BUILD_DIR/build-docbox && box forgebox publish
