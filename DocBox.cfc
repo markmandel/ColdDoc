@@ -165,7 +165,7 @@ component accessors="true"{
 						type 		= "warning",
 						category 	= "docbox",
 						inline 		= "true",
-						text 		= "Warning! The following script has errors: " & packagePath & cfcName & ". #e.toString()#"
+						text 		= "Warning! The following script has errors: " & packagePath & cfcName & ": #e.message() & e.detail & e.stacktrace#"
 					);
 				}
 

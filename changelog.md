@@ -1,6 +1,8 @@
 CHANGELOG
 =========
 
+## 2.2.0
+* Better output of trace commands
 ## 2.1.0
 * Varscoping issue to help with COMMANDBOX-399
 * BUGFIX: Missing pound sign in ExpandPath(), added better wording for custom strategy path
